@@ -1,6 +1,8 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
 
 @import '@fontsource/fira-mono';
+@import '@fontsource/roboto';
+@import '@fontsource/montserrat';
 
 :root {
 	font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,

@@ -1,9 +1,40 @@
-<script context="module" lang="ts">
-	export const prerender = true;
-</script>
-
 <script lang="ts">
 	import Counter from '$lib/Counter.svelte';
+	import { onMount } from "svelte";
+	import { badge } from "$lib/badge.svelte";
+	
+	let promise: Promise<string>;
+	let url: string;
+	let timer;
+
+	let biginput = {
+    url: url,
+    text: ['🗿🗿🗿abc🐱🐱🐱abc', 'some text🗿🗿'],
+    colors: ['#31C4F3', '#389AD5'],
+	fonts: ['http://localhost:3000/src/fonts/roboto-medium-webfont.woff', 'http://localhost:3000/src/fonts/montserrat-extrabold-webfont.woff'],
+    primaryColor: '#31C4F3' ,
+    secondaryColor: '#389AD5',
+    primaryFont: `http://localhost:3000/src/lib/roboto-medium-webfont.woff`,
+	secondaryFont: `http://localhost:3000/src/lib/montserrat-extrabold-webfont.woff`
+}  
+
+
+	onMount(() => {
+    url = window.location.origin;
+    promise = badge(biginput)
+	})
+
+	const debounce = (v, order) => {
+	clearTimeout(timer);
+	timer = setTimeout(() => {
+        biginput.text[order] = v;
+        promise = badge(biginput)
+	}, 500);
+}
+
+	function handleClick() {
+    promise = badge(biginput)
+	}
 </script>
 
 <svelte:head>
@@ -11,21 +42,16 @@
 </svelte:head>
 
 <section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
+	{#await promise}
+	<!-- something -->
+    {:then svg}
+	{@html svg}
+	{/await}
+	<form>
+        <input on:keyup={({ target: { value } }) => debounce(value, 0)} value="🗿🗿🗿abc🐱🐱🐱abc" />
+        <input on:keyup={({ target: { value } }) => debounce(value, 1)} value="some text🗿🗿" />
+        <button on:click={handleClick}>test</button>
+    </form>
 	<Counter />
 </section>
 
@@ -33,28 +59,8 @@
 	section {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
 		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-		color: $red;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>

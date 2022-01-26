@@ -1,8 +1,6 @@
 <script context="module">
 	import { parse } from 'twemoji-parser';
 	import { load } from 'opentype.js';
-// 	@import '@fontsource/roboto';
-// @import '@fontsource/montserrat';
 
 	let distance = 0;
 	let startDistance = 0;

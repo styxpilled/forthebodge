@@ -6,18 +6,14 @@
   let url: string;
   let timer;
 
-  let biginput = {
+  let biginput: BadgeInput = {
     url: url,
     text: ["🗿🗿🗿abc🐱🐱🐱abc", "some text🗿🗿"],
     colors: ["#31C4F3", "#389AD5"],
     fonts: [
       "http://localhost:3000/src/fonts/roboto-medium-webfont.woff",
       "http://localhost:3000/src/fonts/montserrat-extrabold-webfont.woff",
-    ],
-    primaryColor: "#31C4F3",
-    secondaryColor: "#389AD5",
-    primaryFont: `http://localhost:3000/src/lib/roboto-medium-webfont.woff`,
-    secondaryFont: `http://localhost:3000/src/lib/montserrat-extrabold-webfont.woff`,
+    ]
   };
 
   onMount(() => {
@@ -45,18 +41,16 @@
 <section>
   <form>
     <input
-      on:keyup={({ target: { value } }) => debounce(value, 0)}
+      on:keyup={event => debounce(event.currentTarget.value, 0)}
       value="🗿🗿🗿abc🐱🐱🐱abc"
     />
     <input
-      on:keyup={({ target: { value } }) => debounce(value, 1)}
+      on:keyup={event => debounce(event.currentTarget.value, 1)}
       value="some text🗿🗿"
     />
     <button on:click={handleClick}>test</button>
   </form>
-  {#await promise}
-  <!-- something -->
-{:then svg}
+{#await promise then svg}
   {@html svg}
 {/await}
 </section>

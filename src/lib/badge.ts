@@ -1,11 +1,10 @@
-<script context="module" lang="ts">
   import { parse } from "twemoji-parser";
   import { load } from "opentype.js";
 
   let distance = 0;
   let startDistance = 0;
   let length = 0;
-  export async function badge(input: BadgeInput) {
+  export async function badge(input: BadgeInput): Promise<string> {
     distance = 0;
     startDistance = 0;
     length = 0;
@@ -13,52 +12,49 @@
     let body = "";
     for (const [i, value] of input.text.entries()) {
       body += await doTheThing(
-        i % 2,
         value.toUpperCase(),
-        input.colors,
-        input.fonts
+        input.colors[i % 2],
+        input.fonts[i % 2]
       );
     }
-    let head = `<svg xmlns="http://www.w3.org/2000/svg" width="${length}"
+    const head = `<svg xmlns="http://www.w3.org/2000/svg" width="${length}"
                 height="35">`;
     return `${head}${body}</svg>`;
   }
 
-  async function doTheThing(parity, value, colors, fonts) {
+  async function doTheThing(value, color, font) {
     if (value === "") {
       return "";
     }
-    let parsedemoji = parse(value);
+    const parsedemoji = parse(value);
     let offset = 0;
-    let teststr, before;
+    let before;
     let outSvg = "";
-    teststr = value;
-    console.log(parsedemoji);
     distance += 10;
     if (!parsedemoji.length) {
-      outSvg += await drawText(value, fonts[parity]);
+      outSvg += await drawText(value, font);
     } else {
       for (const testemoji of parsedemoji) {
-        before = teststr.substring(0, testemoji.indices[0] + offset);
-        teststr = `${before}ඞ${testemoji.url}ඞ${teststr.substring(
+        before = value.substring(0, testemoji.indices[0] + offset);
+        value = `${before}ඞ${testemoji.url}ඞ${value.substring(
           testemoji.indices[1] + offset
         )}`;
         offset += testemoji.url.length;
       }
-      if (teststr.startsWith("ඞ")) teststr = teststr.substring(1);
-      if (teststr.endsWith("ඞ")) teststr = teststr.substring(0, teststr.length - 1);
-      let testArray = teststr.split("ඞ");
+      if (value.startsWith("ඞ")) value = value.substring(1);
+      if (value.endsWith("ඞ")) value = value.substring(0, value.length - 1);
+      let testArray = value.split("ඞ");
       testArray = testArray.filter((n) => n);
       for (const element of testArray) {
         if (element.startsWith("https://")) {
           outSvg += await drawEmoji(element);
         } else {
-          outSvg += await drawText(element, fonts[parity]);
+          outSvg += await drawText(element, font);
         }
       }
     }
     distance += 10;
-    let result = `<rect x="${startDistance}" width="${distance}" height="35" fill="${colors[parity]}" />${outSvg}`;
+    const result = `<rect x="${startDistance}" width="${distance}" height="35" fill="${color}" />${outSvg}`;
     length += distance;
     startDistance = distance;
     distance = 0;
@@ -66,9 +62,8 @@
   }
 
   async function drawEmoji(emoji) {
-    let svg;
-    let f = await (await fetch(emoji)).text();
-    svg = `<g transform="translate(${
+    const f = await (await fetch(emoji)).text();
+    const svg = `<g transform="translate(${
       startDistance + distance
     },5) scale(0.7,0.7)"> ${f.slice(60, f.length - 6)}</g>`;
     distance += 30;
@@ -78,7 +73,7 @@
   async function drawText(textElem, fontSource) {
     const font = await load(fontSource);
     textElem = textElem.toUpperCase().split("").join(" ");
-    let textSvg = font
+    const textSvg = font
       .getPath(textElem, startDistance + distance, 22, 12)
       .toSVG();
     distance += font.getAdvanceWidth(textElem, 12) + 5;
@@ -88,4 +83,3 @@
       textSvg.toString().slice(5)
     );
   }
-</script>

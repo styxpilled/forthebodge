@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { badge } from "$lib/badge.svelte";
+  import { badge } from "$lib/badge";
 
   let promise: Promise<string>;
   let url: string;

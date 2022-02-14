@@ -9,7 +9,9 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint:js": "eslint --format=pretty --ignore-path .gitignore .",
-		"lint:css": "stylelint **/*.{pcss,css,html,svelte} --custom-formatter=node_modules/stylelint-formatter-pretty"
+		"lint:css": "stylelint **/*.{pcss,css,html,svelte} --custom-formatter=node_modules/stylelint-formatter-pretty",
+		"fix:js": "eslint --format=pretty --ignore-path .gitignore . --fix",
+		"fix:css": "stylelint **/*.{pcss,css,html,svelte} --custom-formatter=node_modules/stylelint-formatter-pretty --fix"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
@@ -18,6 +20,7 @@
 		"@typescript-eslint/parser": "^4.31.1",
 		"autoprefixer": "^10.4.2",
 		"eslint": "^7.32.0",
+		"eslint-formatter-pretty": "^4.1.0",
 		"eslint-plugin-svelte3": "^3.2.1",
 		"postcss": "^8.4.5",
 		"postcss-extend-rule": "^3.0.0",

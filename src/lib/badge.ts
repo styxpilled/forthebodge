@@ -11,7 +11,7 @@
 
     let body = "";
     for (const [i, value] of input.text.entries()) {
-      body += await doTheThing(
+      body += await generate(
         value.toUpperCase(),
         input.colors[i % 2],
         input.fonts[i % 2]
@@ -22,18 +22,18 @@
     return `${head}${body}</svg>`;
   }
 
-  async function doTheThing(value, color, font) {
+  async function generate(value: string, color: string, font: string) {
     if (value === "") {
       return "";
     }
     const parsedemoji = parse(value);
-    let offset = 0;
-    let before;
-    let outSvg = "";
+    let outSvg: string;
     distance += 10;
     if (!parsedemoji.length) {
       outSvg += await drawText(value, font);
     } else {
+      let before: string;
+      let offset = 0;
       for (const testemoji of parsedemoji) {
         before = value.substring(0, testemoji.indices[0] + offset);
         value = `${before}ඞ${testemoji.url}ඞ${value.substring(
@@ -61,7 +61,7 @@
     return result;
   }
 
-  async function drawEmoji(emoji) {
+  async function drawEmoji(emoji: string) {
     const f = await (await fetch(emoji)).text();
     const svg = `<g transform="translate(${
       startDistance + distance
@@ -70,7 +70,7 @@
     return svg;
   }
 
-  async function drawText(textElem, fontSource) {
+  async function drawText(textElem: string, fontSource: string) {
     const font = await load(fontSource);
     textElem = textElem.toUpperCase().split("").join(" ");
     const textSvg = font

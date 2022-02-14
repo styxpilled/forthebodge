@@ -9,7 +9,7 @@
     startDistance = 0;
     length = 0;
 
-    let body = "";
+    let body: string;
     for (const [i, value] of input.text.entries()) {
       body += await generate(
         value.toUpperCase(),
@@ -26,35 +26,32 @@
     if (value === "") {
       return "";
     }
-    const parsedemoji = parse(value);
-    let outSvg: string;
+    const emoji = parse(value);
+    let svg: string;
     distance += 10;
-    if (!parsedemoji.length) {
-      outSvg += await drawText(value, font);
+    if (!emoji.length) {
+      svg += await drawText(value, font);
     } else {
       let before: string;
       let offset = 0;
-      for (const testemoji of parsedemoji) {
-        before = value.substring(0, testemoji.indices[0] + offset);
-        value = `${before}ඞ${testemoji.url}ඞ${value.substring(
-          testemoji.indices[1] + offset
-        )}`;
-        offset += testemoji.url.length;
+      for (const e of emoji) {
+        before = value.substring(0, e.indices[0] + offset);
+        value = `${before}ඞ${e.url}ඞ${value.substring(e.indices[1] + offset)}`;
+        offset += e.url.length;
       }
       if (value.startsWith("ඞ")) value = value.substring(1);
       if (value.endsWith("ඞ")) value = value.substring(0, value.length - 1);
-      let testArray = value.split("ඞ");
-      testArray = testArray.filter((n) => n);
-      for (const element of testArray) {
+      const elements = value.split("ඞ").filter((n) => n);
+      for (const element of elements) {
         if (element.startsWith("https://")) {
-          outSvg += await drawEmoji(element);
+          svg += await drawEmoji(element);
         } else {
-          outSvg += await drawText(element, font);
+          svg += await drawText(element, font);
         }
       }
     }
     distance += 10;
-    const result = `<rect x="${startDistance}" width="${distance}" height="35" fill="${color}" />${outSvg}`;
+    const result = `<rect x="${startDistance}" width="${distance}" height="35" fill="${color}" />${svg}`;
     length += distance;
     startDistance = distance;
     distance = 0;
@@ -70,13 +67,13 @@
     return svg;
   }
 
-  async function drawText(textElem: string, fontSource: string) {
+  async function drawText(element: string, fontSource: string) {
     const font = await load(fontSource);
-    textElem = textElem.toUpperCase().split("").join(" ");
+    element = element.split("").join(" ");
     const textSvg = font
-      .getPath(textElem, startDistance + distance, 22, 12)
+      .getPath(element, startDistance + distance, 22, 12)
       .toSVG();
-    distance += font.getAdvanceWidth(textElem, 12) + 5;
+    distance += font.getAdvanceWidth(element, 12) + 5;
     return (
       textSvg.toString().slice(0, 5) +
       ' fill="white"' +

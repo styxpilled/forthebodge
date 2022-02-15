@@ -11,8 +11,8 @@
     text: ["🗿🗿🗿abc🐱🐱🐱abc", "some text🗿🗿"],
     colors: ["#31C4F3", "#389AD5"],
     fonts: [
-      "http://localhost:3000/src/fonts/roboto-medium-webfont.woff",
-      "http://localhost:3000/src/fonts/montserrat-extrabold-webfont.woff",
+      "http://localhost:3000/src/styles/fonts/roboto-medium-webfont.woff",
+      "http://localhost:3000/src/styles/fonts/montserrat-extrabold-webfont.woff",
     ]
   };
 

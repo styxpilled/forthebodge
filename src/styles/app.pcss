@@ -1,4 +1,5 @@
 @import "@fontsource/fira-mono";
+@import "twemoji.css";
 @import "variables.pcss";
 
 :root {
@@ -26,6 +27,16 @@
   --background-without-opacity: rgba(255 255 255 / 70%);
   --column-width: 42rem;
   --column-margin-top: 4rem;
+}
+
+@font-face {
+  font-family: Twemojitest;
+  src:
+    url("https://raw.githubusercontent.com/xem/emoji/blob/gh-pages/twemoji.woff2") format("woff2"),
+    url("https://raw.githubusercontent.com/xem/emoji/blob/gh-pages/twemoji.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: auto;
 }
 
 html {
@@ -81,23 +92,25 @@ h2 {
 }
 
 input {
-  outline: none;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.4rem;
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
+  all: unset;
+  font-family: Twemoji, sans-serif !important;
+  font-size: 1.5rem;
+  letter-spacing: 0.05rem;
+  padding: 0.6rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
   color: $primary-fg;
-  background-color: $bg;
+  background-color: $bg-dark;
   box-shadow: none;
+  width: 18rem;
 }
 
-input,
 button {
+  all: unset;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+  padding-bottom: none;
+  cursor: pointer;
   font-size: inherit;
   font-family: inherit;
-
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
 }

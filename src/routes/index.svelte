@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { badge } from "$lib/badge";
-
+  import { download } from "$lib/helpers";
   let promise: Promise<string>;
   let url: string;
   let timer;
@@ -50,8 +50,11 @@
     />
     <button on:click={handleClick}>test</button>
   </form>
+
 {#await promise then svg}
-  {@html svg}
+  <button on:click={() => download(`${biginput.text[0]}${biginput.text[1]}.svg`, svg)}>
+    {@html svg}
+  </button>
 {/await}
 </section>
 

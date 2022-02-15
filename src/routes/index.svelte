@@ -28,10 +28,6 @@
       promise = badge(biginput);
     }, 500);
   };
-
-  function handleClick() {
-    promise = badge(biginput);
-  }
 </script>
 
 <svelte:head>
@@ -48,7 +44,6 @@
       on:keyup={event => debounce(event.currentTarget.value, 1)}
       value="some text🗿🗿"
     />
-    <button on:click={handleClick}>test</button>
   </form>
 
 {#await promise then svg}
@@ -59,11 +54,10 @@
 </section>
 
 <style lang="postcss">
-  /* section {
+  section {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     flex: 1;
-  } */
+  }
 </style>

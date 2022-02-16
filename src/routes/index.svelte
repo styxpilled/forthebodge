@@ -4,9 +4,9 @@
   import { download } from "$lib/helpers";
   let promise: Promise<string>;
   let url: string;
-  let timer;
+  let timer: NodeJS.Timeout;
 
-  let biginput: BadgeInput = {
+  const input: BadgeInput = {
     url: url,
     text: ["🗿🗿🗿abc🐱🐱🐱abc", "some text🗿🗿"],
     colors: ["#31C4F3", "#389AD5"],
@@ -18,14 +18,14 @@
 
   onMount(() => {
     url = window.location.origin;
-    promise = badge(biginput);
+    promise = badge(input);
   });
 
-  const debounce = (v, order) => {
+  const debounce = (v: string, order: number) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      biginput.text[order] = v;
-      promise = badge(biginput);
+      input.text[order] = v;
+      promise = badge(input);
     }, 500);
   };
 </script>
@@ -47,7 +47,7 @@
   </form>
 
 {#await promise then svg}
-  <button on:click={() => download(`${biginput.text[0]}${biginput.text[1]}.svg`, svg)}>
+  <button on:click={() => download(`${input.text[0]}${input.text[1]}.svg`, svg)}>
     {@html svg}
   </button>
 {/await}

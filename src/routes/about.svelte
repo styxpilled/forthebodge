@@ -1,4 +1,4 @@
-<script context="module">
+<script context='module'>
   import { browser, dev } from '$app/env';
 
   // we don't need any JS on this page, though we'll load
@@ -18,11 +18,11 @@
   <title>About</title>
 </svelte:head>
 
-<div class="content">
+<div class='content'>
   <h1>About this app</h1>
 
   <p>
-    This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
+    This is a <a href='https://kit.svelte.dev'>SvelteKit</a> app. You can make your own by typing the
     following into your command line and following the prompts:
   </p>
 
@@ -36,12 +36,12 @@
   </p>
 
   <p>
-    The <a href="/todos">TODOs</a> page illustrates SvelteKit's data loading and form handling. Try using
+    The <a href='/todos'>TODOs</a> page illustrates SvelteKit's data loading and form handling. Try using
     it with JavaScript disabled!
   </p>
 </div>
 
-<style lang="postcss">
+<style lang='postcss'>
   .content {
     width: 100%;
     max-width: var(--column-width);

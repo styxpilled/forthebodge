@@ -1,5 +1,5 @@
-import { parse } from "twemoji-parser";
-import { load } from "opentype.js";
+import { parse } from 'twemoji-parser';
+import { load } from 'opentype.js';
 
 let distance = 0;
 let startDistance = 0;
@@ -23,8 +23,8 @@ export async function badge(input: BadgeInput): Promise<string> {
 }
 
 async function generate(value: string, color: string, font: string) {
-  if (value === "") {
-    return "";
+  if (value === '') {
+    return '';
   }
   const emoji = parse(value);
   let svg: string;
@@ -39,11 +39,11 @@ async function generate(value: string, color: string, font: string) {
       value = `${before}ඞ${e.url}ඞ${value.substring(e.indices[1] + offset)}`;
       offset += e.url.length;
     }
-    if (value.startsWith("ඞ")) value = value.substring(1);
-    if (value.endsWith("ඞ")) value = value.substring(0, value.length - 1);
-    const elements = value.split("ඞ").filter((n) => n);
+    if (value.startsWith('ඞ')) value = value.substring(1);
+    if (value.endsWith('ඞ')) value = value.substring(0, value.length - 1);
+    const elements = value.split('ඞ').filter((n) => n);
     for (const element of elements) {
-      if (element.startsWith("https://")) {
+      if (element.startsWith('https://')) {
         svg += await drawEmoji(element);
       } else {
         svg += await drawText(element, font);
@@ -67,7 +67,7 @@ async function drawEmoji(emoji: string) {
 
 async function drawText(element: string, fontSource: string) {
   const font = await load(fontSource);
-  element = element.split("").join(" ");
+  element = element.split('').join(' ');
   const svg: string = font.getPath(element, startDistance + distance, 22, 12).toSVG().toString();
   distance += font.getAdvanceWidth(element, 12) + 5;
   return (`${svg.slice(0, 5)} fill="white" ${svg.slice(5)}`);

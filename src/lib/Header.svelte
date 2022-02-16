@@ -1,30 +1,30 @@
-<script lang="ts">
-  import { page } from "$app/stores";
+<script lang='ts'>
+  import { page } from '$app/stores';
 </script>
 
 <header>
-  <div class="corner">
-    <a href="https://kit.svelte.dev"> corner </a>
+  <div class='corner'>
+    <a href='https://kit.svelte.dev'> corner </a>
   </div>
 
   <nav>
     <ul>
-      <li class:active={$page.url.pathname === "/"}>
-        <a sveltekit:prefetch href="/">Home</a>
+      <li class:active={$page.url.pathname === '/'}>
+        <a sveltekit:prefetch href='/'>Home</a>
       </li>
-      <li class:active={$page.url.pathname === "/about"}>
-        <a sveltekit:prefetch href="/about">About</a>
+      <li class:active={$page.url.pathname === '/about'}>
+        <a sveltekit:prefetch href='/about'>About</a>
       </li>
     </ul>
   </nav>
 
-  <div class="corner">
-    <a href="https://github.com/"> github </a>
+  <div class='corner'>
+    <a href='https://github.com/'> github </a>
   </div>
 </header>
 
-<style lang="postcss">
-  @import "variables.pcss";
+<style lang='postcss'>
+  @import 'variables.pcss';
 
   header {
     display: flex;

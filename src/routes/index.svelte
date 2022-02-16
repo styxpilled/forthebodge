@@ -1,18 +1,18 @@
-<script lang="ts">
-  import { onMount } from "svelte";
-  import { badge } from "$lib/badge";
-  import { download } from "$lib/helpers";
+<script lang='ts'>
+  import { onMount } from 'svelte';
+  import { badge } from '$lib/badge';
+  import { download } from '$lib/helpers';
   let promise: Promise<string>;
   let url: string;
   let timer: NodeJS.Timeout;
 
   const input: BadgeInput = {
     url: url,
-    text: ["🗿🗿🗿abc🐱🐱🐱abc", "some text🗿🗿"],
-    colors: ["#31C4F3", "#389AD5"],
+    text: ['🗿🗿🗿abc🐱🐱🐱abc', 'some text🗿🗿'],
+    colors: ['#31C4F3', '#389AD5'],
     fonts: [
-      "http://localhost:3000/src/styles/fonts/roboto-medium-webfont.woff",
-      "http://localhost:3000/src/styles/fonts/montserrat-extrabold-webfont.woff",
+      'http://localhost:3000/src/styles/fonts/roboto-medium-webfont.woff',
+      'http://localhost:3000/src/styles/fonts/montserrat-extrabold-webfont.woff',
     ]
   };
 
@@ -38,11 +38,11 @@
   <form>
     <input
       on:keyup={event => debounce(event.currentTarget.value, 0)}
-      value="🗿🗿🗿abc🐱🐱🐱abc"
+      value='🗿🗿🗿abc🐱🐱🐱abc'
     />
     <input
       on:keyup={event => debounce(event.currentTarget.value, 1)}
-      value="some text🗿🗿"
+      value='some text🗿🗿'
     />
   </form>
 
@@ -53,7 +53,7 @@
 {/await}
 </section>
 
-<style lang="postcss">
+<style lang='postcss'>
   section {
     display: flex;
     flex-direction: column;

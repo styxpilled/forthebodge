@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { badge } from '$lib/badge';
   import { download } from '$lib/helpers';
+  import Picker from './Picker.svelte';
   let promise: Promise<string>;
   let url: string;
   let timer: NodeJS.Timeout;
@@ -13,7 +14,7 @@
     fonts: [
       'http://localhost:3000/src/styles/fonts/roboto-medium-webfont.woff',
       'http://localhost:3000/src/styles/fonts/montserrat-extrabold-webfont.woff',
-    ]
+    ],
   };
 
   onMount(() => {
@@ -30,19 +31,24 @@
   };
 </script>
 
-  <form>
-    <input
-      on:keyup={event => debounce(event.currentTarget.value, 0)}
-      value='🗿🗿🗿abc🐱🐱🐱abc'
-    />
-    <input
-      on:keyup={event => debounce(event.currentTarget.value, 1)}
-      value='some text🗿🗿'
-    />
-  </form>
+<form>
+  <input
+    on:keyup={(event) => debounce(event.currentTarget.value, 0)}
+    value='🗿🗿🗿abc🐱🐱🐱abc'
+  />
+  <input
+    on:keyup={(event) => debounce(event.currentTarget.value, 1)}
+    value='some text🗿🗿'
+  />
+</form>
 
 {#await promise then svg}
   <button on:click={() => download(`${input.text[0]}${input.text[1]}.svg`, svg)}>
     {@html svg}
   </button>
 {/await}
+
+<div>
+  <Picker />
+  <Picker />
+</div>

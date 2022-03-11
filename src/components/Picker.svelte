@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   const m = { x: 0, y: 0 };
-  let w, h, w2;
+  let w, h, picker;
   let rect;
 
   onMount(() => {
-    rect = document.getElementById("color-picker").getBoundingClientRect()
+    rect = picker.getBoundingClientRect()
   });
   function handleMousemove(event) {
     m.x = event.clientX - rect.left;
@@ -20,7 +20,7 @@
 
 <div class="picker">
   
-  <div id="color-picker" bind:offsetWidth={w} bind:clientWidth={w2} bind:offsetHeight={h} on:mousemove={handleMousemove} on:mousedown={handleMouseclick} class="container">
+  <div id="color-picker" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousemove={handleMousemove} on:mousedown={handleMouseclick} class="container">
     <div class="bg">
       <div class="bg bg1" />
       <div class="bg bg2" />

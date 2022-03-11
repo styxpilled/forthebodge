@@ -18,32 +18,34 @@
   }
 </script>
 
-<div class="megacontainer">
-  The mouse position is {Math.round(m.x)} x {Math.round(m.y)}
+<div class="picker">
+  
   <div id="color-picker" bind:offsetWidth={w} bind:clientWidth={w2} bind:offsetHeight={h} on:mousemove={handleMousemove} on:mousedown={handleMouseclick} class="container">
     <div class="bg">
       <div class="bg bg1" />
       <div class="bg bg2" />
     </div>
   </div>
-</div>
-
+  <div class="hue">
+    
+  </div>
+</div> 
 <style>
-  .container {
-    position: relative;
-    width: 10rem;
+  .picker {
+    display: flex;
+    justify-content: space-evenly;
+    width: 14rem;
     height: 10rem;
   }
-  .megacontainer {
-    position: relative;
+  .container {
     width: 10rem;
     height: 10rem;
   }
   .bg {
     position: absolute;
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 10rem;
+    height: 10rem;
     background-color: rgb(255, 0, 0);
     opacity: 1;
     z-index: -1;
@@ -56,5 +58,12 @@
     /* top: -10rem; */
     z-index: 1;
     background: linear-gradient(to left, rgba(255, 255, 255, 0), #fff);
+  }
+
+  .hue {
+    width: 2rem;
+    height: 100%;
+    background: linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+    z-index: 3;
   }
 </style>

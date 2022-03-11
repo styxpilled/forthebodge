@@ -48,7 +48,7 @@
   </button>
 {/await}
 
-<div>
+<div style="display:flex;">
   <Picker />
   <Picker />
 </div>

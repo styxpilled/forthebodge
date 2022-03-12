@@ -9,19 +9,21 @@
     rect = picker.getBoundingClientRect()
   });
   function handleSLMove(event) {
-    m.x = event.clientX - rect.left;
-    m.y = event.clientY - rect.top;
-    // console.log(`${m.x/w}, ${m.y/h}`);
+    // m.x = Math.abs((event.clientX - rect.left) - (event.clientX - rect.left));
+    m.x = (event.clientX - rect.left) / w;
+    // m.y = Math.abs((event.clientY - rect.top) / h - 1);
+    m.y = (event.clientY - rect.top) / h;
   }
 
   function handleHMove(event) {
-    m.z = event.clientY - rect.top;
+    m.z = (event.clientY - rect.top) / h * 360;
     // console.log(`${Math.round(m.z/h)}`);
     
   }
 
   function handleMouseclick(event) {
-    console.log(`${Math.round(m.x/w)}, ${Math.round(m.y/h)}`);
+    console.log(hslToRgb((m.z/h), (m.x/w), (m.y)));
+    console.log(`${m.x/w}, ${m.y}`);
   }
 </script>
 
@@ -36,7 +38,7 @@
   <div class="hue" on:mousemove={handleHMove} />
 </div> 
 <div class="preview">
-  <div class="color" style:background-color="rgb({hslToRgb((m.z/h), (m.x/w), (m.y/h))}">
+  <div class="color" style:background-color="rgb({hslToRgb(m.z, m.x, m.y)}">
     sdadad
     </div>
 </div>

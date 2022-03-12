@@ -13,14 +13,16 @@
 
   onMount(() => {
     rect = picker.getBoundingClientRect()
+    HCircle.style.left = '25%';
+    HCircle.style.top = '-100%';
   });
-  function handleSBMove(event) {
-    // m.x = (event.clientX - rect.left) / w;
-    // m.y = Math.abs((event.clientY - rect.top) / h - 1);
-  }
 
-  function handleHMove(event) {
-    m.z = (event.clientY - rect.top) / h * 360;
+  function handleHClick(event) {
+    const y = (event.clientY - rect.top) / h 
+    const x = (event.clientX - rect.left) / w
+    m.z = y * 360;
+    HCircle.style.top = `${y * 100-100-5}%`;
+    HCircle.style.left = `${x * 100-100+10}%`;
   }
 
   function handleMouseclick(event) {
@@ -35,14 +37,17 @@
 
 <div class="picker">
   
-  <div id="color-picker" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousemove={handleSBMove} on:mousedown={handleMouseclick} class="container">
+  <div class="container color-container" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousedown={handleMouseclick}>
     <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})" >
       <div class="bg bg1"/>
       <div class="bg bg2" />
     </div>
     <div class="circle" bind:this={SBCircle} />
   </div>
-  <div class="hue" on:mousemove={handleHMove} />
+  <div class="container">
+    <div class="hue" on:mousedown={handleHClick} />
+    <div class="circle" bind:this={HCircle} />
+  </div>
 </div> 
 <div class="preview">
   <div class="color" style:background-color="rgb({hsbToRgb(m.z, m.x, m.y)}">
@@ -59,6 +64,7 @@
     border-width: 0.15rem;
     border-color: black;
     background-color: rgba(0, 0, 0, 0);
+    pointer-events: none;
 	 }
   .picker {
     display: flex;
@@ -67,10 +73,11 @@
     height: 10rem;
   }
   .container {
+    overflow: hidden;
+  }
+  .color-container {
     width: 10rem;
     height: 10rem;
-    /* make everything outside invisible */
-    overflow: hidden;
   }
   .bg {
     position: absolute;

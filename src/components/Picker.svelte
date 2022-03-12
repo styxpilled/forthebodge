@@ -1,35 +1,37 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { hslToRgb } from '$lib/helpers';
-  const m = { x: 0, y: 0, z: 0 };
+  import { hsbToRgb } from '$lib/helpers';
+  const m = {
+    x: 0, // Saturation
+    y: 0, // Brightness
+    z: 0  // Hue
+  };
   let w, h, picker;
   let rect;
 
   onMount(() => {
     rect = picker.getBoundingClientRect()
   });
-  function handleSLMove(event) {
-    // m.x = Math.abs((event.clientX - rect.left) - (event.clientX - rect.left));
+  function handleSBMove(event) {
     m.x = (event.clientX - rect.left) / w;
-    // m.y = Math.abs((event.clientY - rect.top) / h - 1);
-    m.y = (event.clientY - rect.top) / h;
+    m.y = Math.abs((event.clientY - rect.top) / h - 1);
   }
 
   function handleHMove(event) {
     m.z = (event.clientY - rect.top) / h * 360;
-    // console.log(`${Math.round(m.z/h)}`);
-    
   }
 
   function handleMouseclick(event) {
     console.log(hslToRgb((m.z/h), (m.x/w), (m.y)));
-    console.log(`${m.x/w}, ${m.y}`);
+    console.log(`${m.z}
+    ${m.x}
+    ${m.y}`);
   }
 </script>
 
 <div class="picker">
   
-  <div id="color-picker" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousemove={handleSLMove} on:mousedown={handleMouseclick} class="container">
+  <div id="color-picker" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousemove={handleSBMove} on:mousedown={handleMouseclick} class="container">
     <div class="bg">
       <div class="bg bg1" />
       <div class="bg bg2" />
@@ -38,8 +40,11 @@
   <div class="hue" on:mousemove={handleHMove} />
 </div> 
 <div class="preview">
-  <div class="color" style:background-color="rgb({hslToRgb(m.z, m.x, m.y)}">
+  <div class="color" style:background-color="rgb({hsbToRgb(m.z, m.x, m.y)}">
     sdadad
+    <!-- {m.z}
+    {m.x}
+    {m.y} -->
     </div>
 </div>
 <style>

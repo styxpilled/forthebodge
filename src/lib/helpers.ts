@@ -17,8 +17,10 @@ export function download(filename: string, text: string): void {
  * Assumes h, s, and l are contained in the set [0, 1] and
  * returns r, g, and b in the set [0, 255].
  */
-export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
-  const a = s * Math.min(l, 1 - l);
-  const f = (n, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-  return [f(0)*255, f(8)*255, f(4)*255];
+export function hsbToRgb(h: number, s: number, b: number): [number, number, number] {
+  s *= 1;
+  b *= 1;
+  const k = (n) => (n + h / 60) % 6;
+  const f = (n) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
+  return [255 * f(5), 255 * f(3), 255 * f(1)];
 }

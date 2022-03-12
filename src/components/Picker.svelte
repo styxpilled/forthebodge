@@ -9,12 +9,14 @@
   let w, h, picker;
   let rect;
 
+  let SBCircle: HTMLElement, HCircle: HTMLElement;
+
   onMount(() => {
     rect = picker.getBoundingClientRect()
   });
   function handleSBMove(event) {
-    m.x = (event.clientX - rect.left) / w;
-    m.y = Math.abs((event.clientY - rect.top) / h - 1);
+    // m.x = (event.clientX - rect.left) / w;
+    // m.y = Math.abs((event.clientY - rect.top) / h - 1);
   }
 
   function handleHMove(event) {
@@ -22,10 +24,12 @@
   }
 
   function handleMouseclick(event) {
-    console.log(hsbToRgb((m.z/h), (m.x/w), (m.y)));
-    console.log(`${m.z}
-    ${m.x}
-    ${m.y}`);
+    const y = (event.clientY - rect.top) / h 
+    const x = (event.clientX - rect.left) / w
+    m.x = x;
+    m.y = Math.abs(y - 1);
+    SBCircle.style.top = `${y * 100 - 6}%`;
+    SBCircle.style.left = `${m.x * 100 - 6}%`;
   }
 </script>
 
@@ -36,6 +40,7 @@
       <div class="bg bg1"/>
       <div class="bg bg2" />
     </div>
+    <div class="circle" bind:this={SBCircle} />
   </div>
   <div class="hue" on:mousemove={handleHMove} />
 </div> 
@@ -45,6 +50,16 @@
     </div>
 </div>
 <style>
+  .circle {
+    position: relative;
+	  width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.15rem;
+    border-color: black;
+    background-color: rgba(0, 0, 0, 0);
+	 }
   .picker {
     display: flex;
     justify-content: space-evenly;
@@ -54,6 +69,8 @@
   .container {
     width: 10rem;
     height: 10rem;
+    /* make everything outside invisible */
+    overflow: hidden;
   }
   .bg {
     position: absolute;

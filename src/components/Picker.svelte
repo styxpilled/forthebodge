@@ -22,7 +22,7 @@
   }
 
   function handleMouseclick(event) {
-    console.log(hslToRgb((m.z/h), (m.x/w), (m.y)));
+    console.log(hsbToRgb((m.z/h), (m.x/w), (m.y)));
     console.log(`${m.z}
     ${m.x}
     ${m.y}`);
@@ -32,8 +32,8 @@
 <div class="picker">
   
   <div id="color-picker" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousemove={handleSBMove} on:mousedown={handleMouseclick} class="container">
-    <div class="bg">
-      <div class="bg bg1" />
+    <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})" >
+      <div class="bg bg1"/>
       <div class="bg bg2" />
     </div>
   </div>
@@ -42,9 +42,6 @@
 <div class="preview">
   <div class="color" style:background-color="rgb({hsbToRgb(m.z, m.x, m.y)}">
     sdadad
-    <!-- {m.z}
-    {m.x}
-    {m.y} -->
     </div>
 </div>
 <style>
@@ -63,7 +60,6 @@
     display: block;
     width: 10rem;
     height: 10rem;
-    background-color: rgb(255, 0, 0);
     opacity: 1;
     z-index: -1;
   }

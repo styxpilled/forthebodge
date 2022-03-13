@@ -1,33 +1,54 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { hsbToRgb } from '$lib/helpers';
+  import { hsbToRgb } from "$lib/helpers";
   const m = {
     x: 0, // Saturation
     y: 0, // Brightness
-    z: 0  // Hue
+    z: 0, // Hue
   };
   let w, h, picker;
   let rect;
+  let clicked = false;
 
   let SBCircle: HTMLElement, HCircle: HTMLElement;
 
   onMount(() => {
-    rect = picker.getBoundingClientRect()
-    HCircle.style.left = '25%';
-    HCircle.style.top = '-100%';
+    rect = picker.getBoundingClientRect();
+    HCircle.style.left = "25%";
+    HCircle.style.top = "-100%";
   });
 
-  function handleHClick(event) {
-    const y = (event.clientY - rect.top) / h 
-    const x = (event.clientX - rect.left) / w
+  function HClick(event) {
+    const y = (event.clientY - rect.top) / h;
+    const x = (event.clientX - rect.left) / w;
     m.z = y * 360;
-    HCircle.style.top = `${y * 100-100-5}%`;
-    HCircle.style.left = `${x * 100-100+10}%`;
+    HCircle.style.top = `${y * 100 - 100 - 5}%`;
+    HCircle.style.left = `${x * 100 - 100 + 10}%`;
+  }
+
+  function HChange(event) {
+    const y = (event.clientY - rect.top) / h;
+    const x = (event.clientX - rect.left) / w;
+    m.z = y * 360;
+    HCircle.style.top = `${y * 100 - 100 - 5}%`;
+    HCircle.style.left = `${x * 100 - 100 + 10}%`;
+  }
+
+  function SBMove(event) {
+    if (clicked) {
+      const y = (event.clientY - rect.top) / h;
+      const x = (event.clientX - rect.left) / w;
+      m.x = x;
+      m.y = Math.abs(y - 1);
+      SBCircle.style.top = `${y * 100 - 6}%`;
+      SBCircle.style.left = `${m.x * 100 - 6}%`;
+    }
   }
 
   function handleMouseclick(event) {
-    const y = (event.clientY - rect.top) / h 
-    const x = (event.clientX - rect.left) / w
+    clicked = true;
+    const y = (event.clientY - rect.top) / h;
+    const x = (event.clientX - rect.left) / w;
     m.x = x;
     m.y = Math.abs(y - 1);
     SBCircle.style.top = `${y * 100 - 6}%`;
@@ -36,28 +57,44 @@
 </script>
 
 <div class="picker">
-  
-  <div class="container color-container" bind:this={picker} bind:offsetWidth={w} bind:offsetHeight={h} on:mousedown={handleMouseclick}>
-    <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})" >
-      <div class="bg bg1"/>
+  <div
+    class="container color-container"
+    bind:this={picker}
+    bind:offsetWidth={w}
+    bind:offsetHeight={h}
+    on:mousedown={handleMouseclick}
+    on:mousemove={SBMove}
+    on:mouseup={() => (clicked = false)}
+  >
+    <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})">
+      <div class="bg bg1" />
       <div class="bg bg2" />
     </div>
     <div class="circle" bind:this={SBCircle} />
   </div>
   <div class="container">
-    <div class="hue" on:mousedown={handleHClick} />
+    <div
+      class="hue"
+      on:mousedown={(e) => {
+        clicked = true;
+        HClick(e);
+      }}
+      on:mousemove={(e) => clicked && HChange(e)}
+      on:mouseup={() => (clicked = false)}
+    />
     <div class="circle" bind:this={HCircle} />
   </div>
-</div> 
+</div>
 <div class="preview">
   <div class="color" style:background-color="rgb({hsbToRgb(m.z, m.x, m.y)}">
     sdadad
-    </div>
+  </div>
 </div>
+
 <style>
   .circle {
     position: relative;
-	  width: 0.85rem;
+    width: 0.85rem;
     height: 0.85rem;
     border-radius: 50%;
     border-style: solid;
@@ -65,7 +102,7 @@
     border-color: black;
     background-color: rgba(0, 0, 0, 0);
     pointer-events: none;
-	 }
+  }
   .picker {
     display: flex;
     justify-content: space-evenly;
@@ -100,7 +137,16 @@
   .hue {
     width: 2rem;
     height: 100%;
-    background: linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+    background: linear-gradient(
+      to bottom,
+      #ff0000 0%,
+      #ffff00 17%,
+      #00ff00 33%,
+      #00ffff 50%,
+      #0000ff 67%,
+      #ff00ff 83%,
+      #ff0000 100%
+    );
     z-index: 3;
   }
   .preview {

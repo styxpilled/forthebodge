@@ -18,14 +18,6 @@
     HCircle.style.top = "-100%";
   });
 
-  function HClick(event) {
-    const y = (event.clientY - rect.top) / h;
-    const x = (event.clientX - rect.left) / w;
-    m.z = y * 360;
-    HCircle.style.top = `${y * 100 - 100 - 5}%`;
-    HCircle.style.left = `${x * 100 - 100 + 10}%`;
-  }
-
   function HChange(event) {
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
@@ -34,19 +26,7 @@
     HCircle.style.left = `${x * 100 - 100 + 10}%`;
   }
 
-  function SBMove(event) {
-    if (clicked) {
-      const y = (event.clientY - rect.top) / h;
-      const x = (event.clientX - rect.left) / w;
-      m.x = x;
-      m.y = Math.abs(y - 1);
-      SBCircle.style.top = `${y * 100 - 6}%`;
-      SBCircle.style.left = `${m.x * 100 - 6}%`;
-    }
-  }
-
-  function handleMouseclick(event) {
-    clicked = true;
+  function SBChange(event) {
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
     m.x = x;
@@ -62,9 +42,13 @@
     bind:this={picker}
     bind:offsetWidth={w}
     bind:offsetHeight={h}
-    on:mousedown={handleMouseclick}
-    on:mousemove={SBMove}
+    on:mousedown={(e) => {
+      clicked = true;
+      SBChange(e);
+    }}
+    on:mousemove={(e) => clicked && SBChange(e)}
     on:mouseup={() => (clicked = false)}
+    on:mouseleave={() => (clicked = false)}
   >
     <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})">
       <div class="bg bg1" />
@@ -77,10 +61,11 @@
       class="hue"
       on:mousedown={(e) => {
         clicked = true;
-        HClick(e);
+        HChange(e);
       }}
       on:mousemove={(e) => clicked && HChange(e)}
       on:mouseup={() => (clicked = false)}
+      on:mouseleave={() => (clicked = false)}
     />
     <div class="circle" bind:this={HCircle} />
   </div>
@@ -129,8 +114,6 @@
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0), black);
   }
   .bg2 {
-    /* top: -10rem; */
-    z-index: 1;
     background: linear-gradient(to left, rgba(255, 255, 255, 0), #fff);
   }
 

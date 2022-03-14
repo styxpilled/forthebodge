@@ -14,7 +14,7 @@
 
   onMount(() => {
     rect = picker.getBoundingClientRect();
-    HCircle.style.left = "25%";
+    HCircle.style.left = "-10%";
     HCircle.style.top = "-100%";
   });
 
@@ -23,7 +23,7 @@
     const x = (event.clientX - rect.left) / w;
     m.z = y * 360;
     HCircle.style.top = `${y * 100 - 100 - 5}%`;
-    HCircle.style.left = `${x * 100 - 100 + 10}%`;
+    // HCircle.style.left = `${x * 100 - 100 + 10}%`;
   }
 
   function SBChange(event) {
@@ -51,12 +51,12 @@
     on:mouseleave={() => (clicked = false)}
   >
     <div class="bg" style:background-color="rgb({hsbToRgb(m.z, 1, 1)})">
-      <div class="bg bg1" />
-      <div class="bg bg2" />
+      <div class="bg brightness" />
+      <div class="bg saturation" />
     </div>
     <div class="circle" bind:this={SBCircle} />
   </div>
-  <div class="container">
+  <div class="">
     <div
       class="hue"
       on:mousedown={(e) => {
@@ -67,7 +67,10 @@
       on:mouseup={() => (clicked = false)}
       on:mouseleave={() => (clicked = false)}
     />
-    <div class="circle" bind:this={HCircle} />
+    <div class="arrows" bind:this={HCircle}>
+      <arrow class="arrow-right" />
+      <arrow class="arrow-left" />
+    </div>
   </div>
 </div>
 <div class="preview">
@@ -99,21 +102,21 @@
   }
   .color-container {
     width: 10rem;
-    height: 10rem;
+    height: 100%;
   }
   .bg {
     position: absolute;
     display: block;
-    width: 10rem;
-    height: 10rem;
+    width: 100%;
+    height: 100%;
     opacity: 1;
     z-index: -1;
   }
-  .bg1 {
+  .brightness {
     z-index: 2;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0), black);
   }
-  .bg2 {
+  .saturation {
     background: linear-gradient(to left, rgba(255, 255, 255, 0), #fff);
   }
 
@@ -134,5 +137,31 @@
   }
   .preview {
     background-color: hsl(250deg 100 8);
+  }
+
+  .arrows {
+    position: relative;
+    width: 2.5rem;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 0.3rem solid transparent;
+    border-bottom: 0.3rem solid transparent;
+
+    border-left: 0.3rem solid white;
+  }
+
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 0.3rem solid transparent;
+    border-bottom: 0.3rem solid transparent;
+
+    border-right: 0.3rem solid white;
   }
 </style>

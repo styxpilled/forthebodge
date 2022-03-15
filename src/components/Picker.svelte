@@ -29,6 +29,7 @@
   function SBChange(event) {
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
+    if (x < 0 || x > 1 || y < 0 || y > 1) return;
     m.x = x;
     m.y = Math.abs(y - 1);
     SBCircle.style.top = `${y * 100 - 6}%`;

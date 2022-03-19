@@ -22,7 +22,7 @@
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
     m.z = y * 360;
-    HCircle.style.top = `${y * 100 - 100 - 5}%`;
+    HCircle.style.top = `${y * 100 - 100 - 2.5}%`;
     // HCircle.style.left = `${x * 100 - 100 + 10}%`;
   }
 

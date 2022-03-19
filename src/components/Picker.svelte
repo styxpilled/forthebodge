@@ -23,17 +23,25 @@
     const x = (event.clientX - rect.left) / w;
     m.z = y * 360;
     HCircle.style.top = `${y * 100 - 100 - 2.5}%`;
-    // HCircle.style.left = `${x * 100 - 100 + 10}%`;
   }
 
   function SBChange(event) {
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
-    if (x < 0 || x > 1 || y < 0 || y > 1) return;
-    m.x = x;
-    m.y = Math.abs(y - 1);
-    SBCircle.style.top = `${y * 100 - 6}%`;
-    SBCircle.style.left = `${m.x * 100 - 6}%`;
+    if (x > 0 && x < 1) {
+      m.x = x;
+      SBCircle.style.left = `${x * 100 - 5}%`;
+    }
+    else {
+      SBCircle.style.left = `${x > 1 ? 95 : -5 }%`;
+    }
+    if (y > 0 && y < 1) {
+      m.y = y;
+      SBCircle.style.top = `${y * 100 - 5}%`;
+    }
+    else {
+      SBCircle.style.top = `${y > 1 ? 95 : -5 }%`;
+    }
   }
 </script>
 

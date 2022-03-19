@@ -7,6 +7,15 @@
   let url: string;
   let timer: NodeJS.Timeout;
 
+  let RGB: [number, number, number] = [49, 196, 243];
+  let RGB2: [number, number, number] = [56, 154, 213];
+
+  $: {
+    RGB = RGB;
+    RGB2 = RGB2;
+    debounce();
+  }
+
   const input: BadgeInput = {
     url: url,
     text: ['🗿🗿🗿abc🐱🐱🐱abc', 'some text🗿🗿'],
@@ -19,16 +28,28 @@
 
   onMount(() => {
     url = window.location.origin;
+    input.colors[0] = rgbToHex(RGB);
+    input.colors[1] = rgbToHex(RGB2);
     promise = badge(input);
   });
 
-  const debounce = (v: string, order: number) => {
+  const debounce = (v?: string, order?: number) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      input.text[order] = v;
+      if (v) {
+        input.text[order] = v;
+      }
+      input.colors[0] = rgbToHex(RGB);
+      input.colors[1] = rgbToHex(RGB2);
+      console.log(input);
+      
       promise = badge(input);
     }, 500);
   };
+
+  function rgbToHex(rgb: [number, number, number]) {
+    return `#${rgb.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
+  }
 </script>
 
 <form>
@@ -49,6 +70,6 @@
 {/await}
 
 <div style="display:flex;">
-  <Picker />
-  <Picker />
+  <Picker bind:RGB={RGB} />
+  <Picker bind:RGB={RGB2} />
 </div>

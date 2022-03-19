@@ -10,6 +10,9 @@
   let rect;
   let clicked = false;
 
+  export let RGB = hsbToRgb(m.z, m.x, m.y);
+  $: RGB = hsbToRgb(m.z, m.x, m.y);
+
   let SBCircle: HTMLElement, HCircle: HTMLElement;
 
   onMount(() => {
@@ -28,6 +31,7 @@
   function SBChange(event) {
     const y = (event.clientY - rect.top) / h;
     const x = (event.clientX - rect.left) / w;
+    
     if (x > 0 && x < 1) {
       m.x = x;
       SBCircle.style.left = `${x * 100 - 5}%`;
@@ -36,7 +40,7 @@
       SBCircle.style.left = `${x > 1 ? 95 : -5 }%`;
     }
     if (y > 0 && y < 1) {
-      m.y = y;
+      m.y = Math.abs(y - 1);
       SBCircle.style.top = `${y * 100 - 5}%`;
     }
     else {
